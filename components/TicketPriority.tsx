@@ -28,11 +28,25 @@ const priorityMap: Record<
 };
 
 const TicketPriority = ({ priority }: Props) => {
-  return <>
-    <Flame className={`${priorityMap[priority].lelvel >= 1 ? "text-red-500" : "text-muted" }`} />
-    <Flame className={`${priorityMap[priority].lelvel >= 2 ? "text-red-500" : "text-muted" }`} />
-    <Flame className={`${priorityMap[priority].lelvel >= 3 ? "text-red-500" : "text-muted" }`} />
-  </>;
+  return (
+    <div className="flex justify-between">
+      <Flame
+        className={`${priorityMap[priority].lelvel >= 1
+          ? "text-red-500"
+          : "text-muted"}`}
+      />
+      <Flame
+        className={`${priorityMap[priority].lelvel >= 2
+          ? "text-red-500"
+          : "text-muted"}`}
+      />
+      <Flame
+        className={`${priorityMap[priority].lelvel >= 3
+          ? "text-red-500"
+          : "text-muted"}`}
+      />
+    </div>
+  );
 };
 
 export default TicketPriority;
