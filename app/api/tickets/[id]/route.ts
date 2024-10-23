@@ -1,7 +1,7 @@
 import prisma from "@/prisma/db";
 import { ticketSchema } from "@/validationSchemas/ticket";
 import { NextRequest, NextResponse } from "next/server";
-import { string } from "zod";
+
 
 interface Props {
     params: {id: string}
@@ -33,5 +33,24 @@ export async function PATCH(request: NextRequest, {params}: Props) {
     });
 
     return NextResponse.json(updatedTicket);
+
+}
+
+
+export async function DELETE(request: NextRequest, {params}: Props) {
+    const ticket = await prisma.ticket.findUnique({where: {id: parseInt(params.id)}})
+
+    if (!ticket) {
+        return NextResponse.json(
+            {error: "Ticket not found"},
+            {status: 404}
+        )
+    }
+
+    await prisma.ticket.delete({
+        where: {id: ticket.id}
+    });
+
+    return NextResponse.json({message: "Ticket deleted"});
 
 }
