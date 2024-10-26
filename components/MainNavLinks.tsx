@@ -12,12 +12,6 @@ const MainNavLinks = ({ role }: { role?: string }) => {
   ];
 
   const currentPath = usePathname();
-  console.log("role >>", role);
-  // log !link.adminOnly || role === "ADMIN";
-  // console.log(
-  //   "links >> ", links.filter(link => !link.adminOnly || role === "ADMIN")
-  // );
-
   return (
     <div className="flex items-center gap-2">
       {links
