@@ -11,17 +11,17 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  intemCount: number;
+  itemCount: number;
   pageSize: number;
   currentPage: number;
 }
 
-const Pagination = ({ intemCount, pageSize, currentPage }: Props) => {
-  const pageCount = Math.ceil(intemCount / pageSize);
+const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageCount = Math.ceil(itemCount / pageSize);
 
   if (pageCount === 1) return null;
-  const searchParams = useSearchParams();
 
   const changePage = (page: number) => {
     const params = new URLSearchParams(searchParams);
@@ -36,7 +36,7 @@ const Pagination = ({ intemCount, pageSize, currentPage }: Props) => {
           Page {currentPage} of {pageCount}{" "}
         </p>
       </div>
-      <div>
+      <div className="space-x-2">
         <Button
           variant="outline"
           disabled={currentPage === 1}

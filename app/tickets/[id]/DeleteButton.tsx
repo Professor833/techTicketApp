@@ -33,6 +33,8 @@ const DeleteButton = ({ ticketId }: { ticketId: number }) => {
     } catch (error) {
       setisDeleting(false);
       seterror("Unable to delete ticket");
+      console.log(error);
+
     }
   };
   return (
