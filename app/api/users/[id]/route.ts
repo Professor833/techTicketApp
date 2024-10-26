@@ -1,7 +1,9 @@
 import prisma from "@/prisma/db";
 import { userSchema } from "@/validationSchemas/users";
 import bcrypt from "bcryptjs";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import options from "../../auth/[...nextauth]/options";
 
 interface Props {
     params: {
@@ -10,7 +12,22 @@ interface Props {
 }
 
 export async function PATCH(request: NextRequest, { params }: Props) {
+
     const body = await request.json();
+
+    const session = await getServerSession(options)
+    if (!session) {
+        return NextResponse.json(
+            { error: "Unauthorized" },
+            { status: 401 }
+        );
+    }
+    if (session.user.role !== 'ADMIN') {
+        return NextResponse.json(
+            { error: "Unauthorized" },
+            { status: 401 }
+        );
+    }
     const validation = userSchema.safeParse(body);
 
     if (!validation.success) {

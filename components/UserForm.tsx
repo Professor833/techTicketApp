@@ -39,7 +39,7 @@ const UserForm = ({ user }: TicketFormProps) => {
     // console.log("values >> ", values);
     try {
       setIsSubmitting(true);
-      setSetError("false");
+      setSetError("");
 
       if (user) {
         await axios.patch(`/api/users/${user.id}`, values);
