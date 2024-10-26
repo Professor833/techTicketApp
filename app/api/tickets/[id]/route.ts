@@ -1,5 +1,5 @@
 import prisma from "@/prisma/db";
-import { ticketSchema } from "@/validationSchemas/ticket";
+import { ticketPatchSchema } from "@/validationSchemas/ticket";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -9,7 +9,7 @@ interface Props {
 
 export async function PATCH(request: NextRequest, {params}: Props) {
     const body = await request.json();
-    const validation = ticketSchema.safeParse(body);
+    const validation = ticketPatchSchema.safeParse(body);
 
     if (!validation.success) {
         return NextResponse.json(
@@ -25,6 +25,17 @@ export async function PATCH(request: NextRequest, {params}: Props) {
             {error: "Ticket not found"},
             {status: 404}
         )
+    }
+
+    if (body?.assignedToUserId) {
+        body.assignedToUserId = parseInt(body.assignedToUserId)
+        const user = await prisma.user.findUnique({where: {id: body.assignedToUserId}})
+        if (!user) {
+            return NextResponse.json(
+                {error: "User not found"},
+                {status: 404}
+            )
+        }
     }
 
     const updatedTicket = await prisma.ticket.update({
